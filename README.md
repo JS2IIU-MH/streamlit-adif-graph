@@ -34,15 +34,16 @@ ADIFファイル（アマチュア無線の交信ログ）をアップロード�
 ## ファイル構成
 - `adif_qso_show.py` : Streamlitアプリ本体
 - `requirements.txt` : 必要なPythonパッケージ一覧
-- `temp_plot.png` : サンプルグラフ画像（実行時に生成されます）
+- `temp_plot.png` : ダウンロード可能なグラフ画像（実行時に生成されます）
 
 ## 必要なパッケージ
-- streamlit
-- matplotlib
-- adiftools（外部/自作モジュール）
+- `streamlit`
+- `matplotlib`
+- `adiftools`（`pip install -r requirements.txt`でインストールされます。詳細は[JS2IIU-MH/adiftools-dev](https://github.com/JS2IIU-MH/adiftools-dev)参照。）
+  - `adiftools`はバージョン`v0.1.8`以降が必要です。
 
 ## ライセンス
-MIT License
+[MIT License](LICENCE)
 
 ---
 Copyright (c) 2025 JS2IIU
