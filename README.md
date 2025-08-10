@@ -35,7 +35,6 @@ ADIFファイル（アマチュア無線の交信ログ）をアップロード�
 - `adif_qso_show.py` : Streamlitアプリ本体
 - `requirements.txt` : 必要なPythonパッケージ一覧
 - `temp_plot.png` : サンプルグラフ画像（実行時に生成されます）
-- `temp_upload.adi` : 一時アップロードファイル（実行時に生成されます）
 
 ## 必要なパッケージ
 - streamlit

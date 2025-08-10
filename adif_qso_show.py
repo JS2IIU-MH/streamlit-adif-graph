@@ -9,14 +9,16 @@ st.title("ADIF QSO 月別バンド集計グラフ")
 
 uploaded_file = st.file_uploader("ADIFファイルをアップロードしてください", type=["adi", "adif"])
 
-if uploaded_file is not None:
-	# 一時ファイルとして保存
-	with open("temp_upload.adi", "wb") as f:
-		f.write(uploaded_file.read())
 
-	# ADIFファイルを読み込む
+if uploaded_file is not None:
+	# アップロードファイルの内容をバイト列で取得
+	adi_bytes = uploaded_file.read()
+	# バイト列をテキストとしてデコード
+	adi_text = adi_bytes.decode("utf-8")
+	# ADIFファイルを文字列から読み込む
 	parser = adiftools.adiftools.ADIFParser()
-	adif = parser.read_adi("temp_upload.adi")
+	import io
+	adif = parser.read_adi(io.StringIO(adi_text))
 
 	# グラフ作成（PNGファイルとして保存）
 	plot_path = "temp_plot.png"
