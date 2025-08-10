@@ -1,6 +1,12 @@
 
 # streamlit-adif-graph
 
+![GitHub License](https://img.shields.io/github/license/JS2IIU-MH/streamlit-adif-graph)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/JS2IIU-MH/streamlit-adif-graph)
+![GitHub Created At](https://img.shields.io/github/created-at/JS2IIU-MH/streamlit-adif-graph)
+
+
+
 ADIFファイル（アマチュア無線の交信ログ）をアップロードし、月別・バンド別のQSO集計グラフを作成・表示・ダウンロードできるStreamlitアプリです。
 
 動作確認してみたい方はStreamlit Community Cloudの[https://app-adif-graph.streamlit.app/](https://app-adif-graph.streamlit.app/)こちらから。
