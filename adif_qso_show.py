@@ -2,31 +2,45 @@
 import streamlit as st
 import adiftools.adifgraph as adifgraph
 import adiftools.adiftools
-import matplotlib.pyplot as plt
 import io
+import os
+import tempfile
 
 st.title("ADIF QSO 月別バンド集計グラフ")
 
 uploaded_file = st.file_uploader("ADIFファイルをアップロードしてください", type=["adi", "adif"])
 
 
+@st.cache_data
+def parse_adif(file_bytes: bytes):
+	"""ADIFファイルのバイト列を受け取り、DataFrameを返す（結果をキャッシュ）"""
+	tmp_path = None
+	try:
+		with tempfile.NamedTemporaryFile(mode='wb', suffix='.adi', delete=False) as tmp:
+			tmp.write(file_bytes)
+			tmp_path = tmp.name
+		parser = adiftools.adiftools.ADIFParser()
+		return parser.read_adi(tmp_path)
+	finally:
+		if tmp_path is not None:
+			os.unlink(tmp_path)
+
+
+@st.cache_data
+def generate_plot_bytes(file_bytes: bytes) -> bytes:
+	"""ADIFバイト列からグラフ画像をメモリ上で生成してキャッシュする"""
+	adif = parse_adif(file_bytes)
+	buf = io.BytesIO()
+	adifgraph.monthly_band_qso(adif, buf)
+	return buf.getvalue()
+
 
 if uploaded_file is not None:
-	# 一時ファイルとして保存
-	with open("temp_upload.adi", "wb") as f:
-		f.write(uploaded_file.read())
+	file_bytes = uploaded_file.getvalue()
 
-	# ADIFファイルを読み込む
-	parser = adiftools.adiftools.ADIFParser()
-	adif = parser.read_adi("temp_upload.adi")
-
-	# グラフ作成（PNGファイルとして保存）
-	plot_path = "temp_plot.png"
-	adifgraph.monthly_band_qso(adif, plot_path)
+	img_bytes = generate_plot_bytes(file_bytes)
 
 	# グラフ表示
-	with open(plot_path, "rb") as img_file:
-		img_bytes = img_file.read()
 	st.image(img_bytes, caption="月別バンドQSOグラフ", use_container_width=True)
 
 	# PNGとしてダウンロード
